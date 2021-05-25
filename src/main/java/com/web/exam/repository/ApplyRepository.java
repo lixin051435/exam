@@ -8,4 +8,6 @@ public interface ApplyRepository extends JpaRepository<Apply,String> {
 
     List<Apply> findAllByStudentIdAndStatus(String studentId,Integer status);
 
+    List<Apply> findAllByStudentId(String studentId);
+
 }

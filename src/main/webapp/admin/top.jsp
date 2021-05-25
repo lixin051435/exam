@@ -19,8 +19,7 @@
 							"document.getElementById('time').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",
 							1000);
 				</script></li>
-<%--				<li><a href="<%=basePath%>admin/editpwd.jsp" title=""><img src="images/icons/topnav/settings.png" alt="" /><span>修改密码</span></a></li>--%>
-				<li><a href="<%=basePath%>admin/exit.action" onclick="{if(confirm('确定要退出吗?')){return true;}return false;}"
+				<li><a href="${pageContext.request.contextPath}/fore/exit" onclick="{if(confirm('确定要退出吗?')){return true;}return false;}"
 					title=""><img src="images/icons/topnav/logout.png" alt="" /><span>退出系统</span></a></li>
 			</ul>
 		</div>

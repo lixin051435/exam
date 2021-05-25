@@ -1,8 +1,10 @@
 package com.web.exam.controller;
 
+import com.web.exam.constants.SystemConstant;
 import com.web.exam.domain.Course;
 import com.web.exam.domain.Grade;
 import com.web.exam.domain.Apply;
+import com.web.exam.domain.Student;
 import com.web.exam.enums.ApplyStatusEnum;
 import com.web.exam.service.CourseService;
 import com.web.exam.service.GradeService;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RequestMapping("/apply")
@@ -44,6 +48,16 @@ public class ApplyController extends BaseController<Apply> {
         return "redirect:toList";
     }
 
+    @GetMapping("/myapply")
+    public String myapply(Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute(SystemConstant.SESSION_STUDENT);
+
+        List<Apply> applys = applyService.findAllByStudentId(student.getId());
+        model.addAttribute("applys", applys);
+        return "apply_mylist";
+    }
+
     @GetMapping("/toList")
     public String toList(Model model) {
         List<Apply> applys = applyService.findAll();
@@ -52,8 +66,12 @@ public class ApplyController extends BaseController<Apply> {
     }
 
     @GetMapping("/toAdd")
-    public String toAdd() {
-        return "redirect:/admin/apply_add.jsp";
+    public String toAdd(Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute(SystemConstant.SESSION_STUDENT);
+        model.addAttribute("student",student);
+//        return "redirect:/admin/apply_add.jsp";
+        return "apply_add";
     }
 
     @RequestMapping("/add")
@@ -61,7 +79,7 @@ public class ApplyController extends BaseController<Apply> {
         apply.setId(KeyUtils.genItemId());
         apply.setStatus(ApplyStatusEnum.COMMITED.getCode());
         insert(apply);
-        return "redirect:toList";
+        return "redirect:myapply";
     }
 
     @RequestMapping("/edit")

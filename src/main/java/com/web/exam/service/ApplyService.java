@@ -39,4 +39,8 @@ public class ApplyService extends BaseService<Apply> {
         return sum;
     }
 
+    public List<Apply> findAllByStudentId(String studentId){
+        return repository.findAllByStudentId(studentId);
+    }
+
 }

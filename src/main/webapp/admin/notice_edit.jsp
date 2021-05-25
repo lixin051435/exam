@@ -83,46 +83,24 @@
     <div class="line"></div>
     <div class="line"></div>
     <div class="wrapper">
-        <form action="${pageContext.request.contextPath}/apply/add" name="myform" method="post" onsubmit="return true;"
+        <form action="${pageContext.request.contextPath}/notice/edit" name="myform" method="post" onsubmit="return true;"
               class="form">
             <div class="widget" style="width: 40%">
                 <div class="title">
                     <img src="images/icons/dark/list.png" alt="" class="titleIcon"/>
-                    <h6>第二课堂加分申请</h6>
+                    <h6>编辑考试公告</h6>
                 </div>
-
-                <div class="formRow">
-                    <label>学生编号</label>
+                <div class="formRow" hidden="hidden">
+                    <label>公告编号</label>
                     <div class="formRight">
-                        <input type="text" readonly name="studentId" class="mws-textinput" id="id" value="${student.id}"/>
+                        <input type="text" name="id" class="mws-textinput" value="${notice.id}" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="formRow">
-                    <label>学生账号</label>
+                    <label>考试公告</label>
                     <div class="formRight">
-                        <input type="text" readonly name="studentAccount" class="mws-textinput" id="id" value="${student.account}"/>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-                <div class="formRow">
-                    <label>学生姓名</label>
-                    <div class="formRight">
-                        <input type="text" readonly name="studentName" class="mws-textinput" id="account" value="${student.name}"/>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-                <div class="formRow">
-                    <label>申请理由</label>
-                    <div class="formRight">
-                        <input type="text" name="reason" class="mws-textinput" id="password" placeholder="比赛、志愿者、学生会等"/>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-                <div class="formRow">
-                    <label>申请加分</label>
-                    <div class="formRight">
-                        <input type="text" name="grade" class="mws-textinput" id="name"/>
+                        <input type="text" name="content" class="mws-textinput" value="${notice.content}" />
                     </div>
                     <div class="clear"></div>
                 </div>

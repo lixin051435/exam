@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -66,63 +65,33 @@
         <div class="widget">
             <div class="title">
                 <img src="images/icons/dark/frames.png" alt="" class="titleIcon"/>
-                <h6>成绩列表</h6>
+                <h6>申请列表</h6>
             </div>
             <table cellpadding="0" cellspacing="0" width="100%" class="sTable">
                 <thead>
                 <tr>
-                    <td>学生编号</td>
-                    <td>学生账号</td>
-                    <td>学生姓名</td>
-                    <c:forEach items="${courses}" var="course">
-                        <td>${course.name}</td>
-                    </c:forEach>
-                    <td>第一课堂总分</td>
-                    <td>第二课堂总分</td>
-                    <td>综合测评总分</td>
+                    <td>考试公告</td>
+                    <td>发布时间</td>
                     <c:if test="${sessionScope.session_student == null}">
                         <td>操作</td>
                     </c:if>
 
+
                 </tr>
                 </thead>
-                <c:forEach items="${studentGradeVOS}" var="item">
+                <c:forEach items="${notices}" var="item">
                     <tr align="center">
-                        <td>${item.student.id}</td>
-                        <td>${item.student.account}</td>
-                        <td>${item.student.name}</td>
-                        <c:forEach items="${item.grades}" var="grade">
-                            <td>${grade.grade}</td>
-                        </c:forEach>
-                        <td>${item.grade1}</td>
-                        <td>${item.grade2}</td>
-                        <td>${item.total}</td>
+                        <td>${item.content}</td>
+                        <td>${item.createtime}</td>
                         <c:if test="${sessionScope.session_student == null}">
-                            <td>
-                                <a href="${pageContext.request.contextPath}/grade/getByStudentId?studentId=${item.student.id}">编辑</a>
-                            </td>
+                            <td><a href="${pageContext.request.contextPath}/notice/getById?id=${item.id}">编辑</a>&nbsp;&nbsp;<a
+                                    href="${pageContext.request.contextPath}/notice/delete?id=${item.id}"
+                                    onclick="{if(confirm('确定要删除吗?')){return true;}return false;}">删除</a></td>
                         </c:if>
 
                     </tr>
                 </c:forEach>
             </table>
-            <div class="dataTables_wrapper">
-                <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
-                    <form action="${pageContext.request.contextPath}/grade/order" name="myform" method="post">
-                        <label>排序条件: <select name="orderType" style="width: 100%">
-                            <c:forEach items="${courses}" var="course">
-                                <option value="${course.id}">按${course.name}排序</option>
-                            </c:forEach>
-                            <option value="sum1">按第一课堂分数排序</option>
-                            <option value="sum2">按第二课堂分数排序</option>
-                            <option value="total">按综合测评分数排序</option>
-                        </select>
-                        </label>
-                        <label><input type="submit" value="确定" class="mws-button green"/> </label>
-                        <label><a href="${pageContext.request.contextPath}/excel/export">导出到文件</a> </label>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>

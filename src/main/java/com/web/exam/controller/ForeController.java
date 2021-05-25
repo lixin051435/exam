@@ -32,12 +32,22 @@ public class ForeController {
     @Autowired
     private StudentRepository studentRepository;
 
-    @GetMapping("/index")
-    public String toRegister() {
-        return "admin/login";
+    @RequestMapping("/index")
+    public String exit(){
+        return "index";
     }
 
-    @PostMapping("/login")
+    @RequestMapping("/exit")
+    public String exit(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.removeAttribute(SystemConstant.SESSION_ADMIN);
+        session.removeAttribute(SystemConstant.SESSION_TEACHER);
+        session.removeAttribute(SystemConstant.SESSION_STUDENT);
+        return "redirect:index";
+    }
+
+
+    @RequestMapping("/login")
     public String login(LoginVO form, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute(SystemConstant.SESSION_ADMIN);
@@ -53,16 +63,19 @@ public class ForeController {
             Teacher teacher = teacherRepository.findByAccountAndPassword(form.getAccount(), form.getPassword());
             if(teacher != null){
                 session.setAttribute(SystemConstant.SESSION_TEACHER, teacher);
+                return "redirect:/admin/main.jsp";
             }
 
         }else if(form.getType() == UserTypeEnum.STUDENT.getCode()){
             Student student = studentRepository.findByAccountAndPassword(form.getAccount(), form.getPassword());
             if(student != null){
                 session.setAttribute(SystemConstant.SESSION_STUDENT, student);
+                return "redirect:/admin/main.jsp";
             }
         }else{
             throw new RuntimeException("用户类型错误");
         }
-        return "redirect:/index.jsp";
+        model.addAttribute("error","用户名或密码错误");
+        return "index";
     }
 }
