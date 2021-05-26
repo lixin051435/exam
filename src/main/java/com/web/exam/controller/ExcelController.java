@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ExcelController {
 
     @RequestMapping("/export")
     public String export(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HttpSession session =  request.getSession();
         response.setContentType("application/binary;charset=UTF-8");
         try {
             ServletOutputStream out = response.getOutputStream();
@@ -32,7 +34,10 @@ public class ExcelController {
             } catch (UnsupportedEncodingException e1) {
                 e1.printStackTrace();
             }
-            List<StudentGradeVO> studentGradeVOList = gradeService.getAllStudentGradeVO();
+            List<StudentGradeVO> studentGradeVOList = (List<StudentGradeVO>) session.getAttribute("grades");
+            if(studentGradeVOList == null){
+                studentGradeVOList = gradeService.getAllStudentGradeVO();
+            }
             ExcelUtils.export(studentGradeVOList, out);
             return "success";
         } catch (Exception e) {

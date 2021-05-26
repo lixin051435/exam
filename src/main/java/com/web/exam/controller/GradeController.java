@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -90,7 +92,9 @@ public class GradeController extends BaseController<Grade> {
     }
 
     @RequestMapping("/order")
-    public String toQuery(String orderType,Model model){
+    public String toQuery(String orderType, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
         List<Course> courses = courseService.findAllASC();
         model.addAttribute("courses",courses);
 
@@ -137,6 +141,8 @@ public class GradeController extends BaseController<Grade> {
                 }
             });
         }
+
+        session.setAttribute("grades",studentGradeVOS);
 
         model.addAttribute("studentGradeVOS",studentGradeVOS);
 
